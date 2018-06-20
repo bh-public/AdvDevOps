@@ -9,8 +9,8 @@ set -e
 # Any subsequent(*) commands which fail will cause the shell script to exit immediately
 
 #Declaring variable used in the script
-LOCAL_REPOSITORY=http://192.168.130.206
-
+# LOCAL_REPOSITORY=http://192.168.130.206
+# not using LOCAL, but public github
 
 #Script used for Jenkins Service
 # In case you have a local CloudCenter repository, disable it
@@ -26,7 +26,8 @@ sudo yum install java-1.7.0 -y
 agentSendLogMessage "Downloading & Installing Jenkins ..."
 #wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo
 # Downloading a specific supported version of Jenkins for CloudCenter 4.8.x
-sudo wget $LOCAL_REPOSITORY/appz/jenkins/jenkins-1.624-1.1.noarch.rpm
+#sudo wget $LOCAL_REPOSITORY/appz/jenkins/jenkins-1.624-1.1.noarch.rpm
+sudo wget https://raw.githubusercontent.com/bh-public/Jenkins/master/jenkins-1.624-1.1.noarch.rpm
 sudo rpm -ivh jenkins-1.624-1.1.noarch.rpm
 
 agentSendLogMessage "Starting Jenkins ..."
