@@ -5,7 +5,7 @@
 . /usr/local/osmosix/service/utils/agent_util.sh
 
 #Declaring variable used in the script
-LOCAL_REPO="http://192.168.130.206"
+#LOCAL_REPO="http://192.168.130.206"
 
 # RUN EVERYTHING AS ROOT
 if [ "$(id -u)" != "0" ]; then
@@ -95,7 +95,8 @@ agentSendLogMessage "Creating post-commit hooks ..."
 
 # Creating the webhook
 cd /svn/$repoName/hooks
-sudo wget $LOCAL_REPO/appz/subversion/conf/post-commit
+#sudo wget $LOCAL_REPO/appz/subversion/conf/post-commit
+sudo wget https://raw.githubusercontent.com/bh-public/AdvDevOps/master/CloudCenter/appz/subversion/conf/post-commit
 sudo sed -i "s/JENKINS_URL/$CliqrTier_jenkins_PUBLIC_IP/" /svn/$repoName/hooks/post-commit
 chmod +x post-commit
 
