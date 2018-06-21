@@ -123,9 +123,22 @@ sudo wget https://raw.githubusercontent.com/bh-public/AdvDevOps/master/CloudCent
 agentSendLogMessage "Configuring certifcates between Jenkins and CloudCenter..." 
 cd /var/lib/jenkins/
 # sudo wget $LOCAL_REPO/services/jenkins/$C3_SSL_CERT_NAME
-sudo wget https://raw.githubusercontent.com/bh-public/AdvDevOps/master/CloudCenter/appz/jenkins/$C3_SSL_CERT_NAME
-#Adding to keystore. Note that if you changed the keystore default password you have to update the below command
-sudo //usr/local/java/jdk1.8.0_171/bin/keytool -import -trustcacerts -alias cloudcenter -keystore /usr/local/java/jdk1.8.0_171/jre/lib/security/cacerts -file ccc.crt -noprompt -storepass changeit
+# sudo wget https://raw.githubusercontent.com/bh-public/AdvDevOps/master/CloudCenter/appz/jenkins/$C3_SSL_CERT_NAME
+# Adding to keystore. Note that if you changed the keystore default password you have to update the below command
+# sudo //usr/local/java/jdk1.8.0_171/bin/keytool -import -trustcacerts -alias cloudcenter -keystore /usr/local/java/jdk1.8.0_171/jre/lib/security/cacerts -file ccc.crt -noprompt -storepass changeit
+agentSendLogMessage "Wait were now using an alternative method to deal with SSL certs in Jenkins" 
+
+# Alternate Step 5 - Turn off SSL certs in Jenkins by using JavaSSL.zip
+sudo wget wget /https://raw.githubusercontent.com/bh-public/AdvDevOps/master/CloudCenter/appz/jenkins/conf/JavaSSL.zip
+unzip JavaSSL.zip
+# Run the installcert and point to our url and answer with 1 for yes
+echo 1 | $JAVA_HOME/bin/java InstallCert cloudcenter.cliqr.com
+cp jssecacerts $JAVA_HOME/jre/lib/security
+cp jssecacerts ~/.keystore
+# now restart tomcat on the Jenkins server for the changes to take effect
+/etc/init.d/tomcat stop
+sleep 5
+/etc/init.d/tomcat start
 
 # Step 6 - change all the password and IPS of the files
 # start with svn password
