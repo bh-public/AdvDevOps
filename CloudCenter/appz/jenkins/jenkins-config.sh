@@ -129,7 +129,7 @@ cd /var/lib/jenkins/
 agentSendLogMessage "Wait were now using an alternative method to deal with SSL certs in Jenkins" 
 
 # Alternate Step 5 - Turn off SSL certs in Jenkins by using JavaSSL.zip
-sudo wget wget /https://raw.githubusercontent.com/bh-public/AdvDevOps/master/CloudCenter/appz/jenkins/conf/JavaSSL.zip
+sudo wget wget https://raw.githubusercontent.com/bh-public/AdvDevOps/master/CloudCenter/appz/jenkins/conf/JavaSSL.zip
 unzip JavaSSL.zip
 # Run the installcert and point to our url and answer with 1 for yes
 echo 1 | $JAVA_HOME/bin/java InstallCert cloudcenter.cliqr.com
