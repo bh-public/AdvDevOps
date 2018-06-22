@@ -72,18 +72,19 @@ cd jobs/$repoName
 # sudo wget $LOCAL_REPO/services/jenkins/conf/project.zip
 sudo wget https://raw.githubusercontent.com/bh-public/AdvDevOps/master/CloudCenter/appz/jenkins/conf/project.zip
 sudo unzip project.zip
-# Bengin added on the 15th
+# Begin added on the 15th
 cd /var/lib/jenkins/jobs/deploy
 # sudo wget $LOCAL_REPO/services/jenkins/conf/job_deploy.zip
 sudo wget https://raw.githubusercontent.com/bh-public/AdvDevOps/master/CloudCenter/appz/jenkins/conf/job_deploy.zip
 sudo unzip job_deploy.zip
 ## Replace username and password used by the CloudCenter plugin
-## <userName>jenkins_m</userName>
-## <password>1FDBF7B2999D9EE3</password> 
+## Changed by bh for my tenant setup
+## <userName>jenkins_m_175</userName>
+## <password>8F536C1854DF813A</password> 
 ## ccRestUserName and ccRestPassword
 
-sudo sed -i "s/jenkins_m/$ccRestUserName/" /var/lib/jenkins/jobs/deploy/config.xml
-sudo sed -i "s/1FDBF7B2999D9EE3/$ccRestPassword/" /var/lib/jenkins/jobs/deploy/config.xml
+sudo sed -i "s/jenkins_m_175/$ccRestUserName/" /var/lib/jenkins/jobs/deploy/config.xml
+sudo sed -i "s/8F536C1854DF813A/$ccRestPassword/" /var/lib/jenkins/jobs/deploy/config.xml
 # End
 
 ###################### # Step 4 - download and install cloudcenter 4.8x plugin
@@ -144,11 +145,12 @@ EOF
 sudo cp jssecacerts $JAVA_HOME/jre/lib/security
 sudo cp jssecacerts ~/.keystore
 # now restart tomcat on the Jenkins server for the changes to take effect
-agentSentLogMessage "Now we need to bounce tomcat, restart ... tomcat"
+agentSendLogMessage "Now we need to bounce tomcat, restart ... tomcat"
 sudo /etc/init.d/tomcat stop
+agentSendLogMessage "I find myself sleepy now for 5 seconds ..."
 sleep 5
 sudo /etc/init.d/tomcat start
-agentSentLogMessage "tomcat has been restarted after the SSL change"
+agentSendLogMessage "Wake up dude, tomcat has been restarted after the SSL change"
 
 # Step 6 - change all the password and IPS of the files
 # start with svn password
