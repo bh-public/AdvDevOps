@@ -8,9 +8,9 @@ exec > >(tee -a /var/tmp/jenkins-config_$$.log) 2>&1
 sudo sed -i 's/enabled=1/enabled=0/' /etc/yum.repos.d/cliqr.repo
 
 #Declaring variable used in the script
-#LOCAL_PROXY="http://proxy-wsa.esl.cisco.com:80"
-#LOCAL_REPO="http://192.168.130.206"
-C3_SSL_CERT_NAME="ccc.crt"
+# LOCAL_PROXY="http://proxy-wsa.esl.cisco.com:80"
+# LOCAL_REPO="http://192.168.130.206"
+# C3_SSL_CERT_NAME="ccc.crt"
 
 
 agentSendLogMessage "Installing JDK 8 ..."
@@ -18,6 +18,7 @@ agentSendLogMessage "Installing JDK 8 ..."
 # After all I've decided to install the Oralce JDK 8 171
 cd /opt
 #sudo wget -e use_proxy=yes -e https_proxy=$LOCAL_PROXY --no-cookies --no-check-certificate --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/8u171-b11/512cd62ec5174c3487ac17c61aaa89e8/jdk-8u171-linux-x64.tar.gz"
+# Removing Proxy
 sudo wget --no-cookies --no-check-certificate --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/8u171-b11/512cd62ec5174c3487ac17c61aaa89e8/jdk-8u171-linux-x64.tar.gz"
 
 #Modified on the 24th of May by Stefano
@@ -117,7 +118,7 @@ cd /var/lib/jenkins
 # sudo wget $LOCAL_REPO/services/jenkins/conf/jenkins.model.ArtifactManagerConfiguration.xml
 sudo wget /https://raw.githubusercontent.com/bh-public/AdvDevOps/master/CloudCenter/appz/jenkins/conf/jenkins.model.ArtifactManagerConfiguration.xml
 # sudo wget $LOCAL_REPO/services/jenkins/conf/org.jfrog.hudson.ArtifactoryBuilder.xml
-sudo wget https://raw.githubusercontent.com/bh-public/AdvDevOps/master/CloudCenter/appz/jenkins/conf/org.jfrog.hudson.ArtifactoryBuilder.xml
+sudo wget https://raw.githubusercontent.com/bh-public/AdvDevOps/master/CloudCenter/services/jenkins/conf/org.jfrog.hudson.ArtifactoryBuilder.xml
 
 #Step 5 - download SSL certificate from CloudCenter
 agentSendLogMessage "Configuring certifcates between Jenkins and CloudCenter..." 
@@ -130,15 +131,17 @@ agentSendLogMessage "Wait were now using an alternative method to deal with SSL 
 
 # Alternate Step 5 - Turn off SSL certs in Jenkins by using JavaSSL.zip
 sudo wget wget https://raw.githubusercontent.com/bh-public/AdvDevOps/master/CloudCenter/appz/jenkins/conf/JavaSSL.zip
-unzip JavaSSL.zip
+sudo unzip JavaSSL.zip
 # Run the installcert and point to our url and answer with 1 for yes
 echo 1 | $JAVA_HOME/bin/java InstallCert cloudcenter.cliqr.com
-cp jssecacerts $JAVA_HOME/jre/lib/security
+sudo cp jssecacerts $JAVA_HOME/jre/lib/security
 cp jssecacerts ~/.keystore
 # now restart tomcat on the Jenkins server for the changes to take effect
-/etc/init.d/tomcat stop
+agentSentLogMessage "Now we need to bounce tomcat, restart ... tomcat"
+sudo /etc/init.d/tomcat stop
 sleep 5
-/etc/init.d/tomcat start
+sudo /etc/init.d/tomcat start
+agentSentLogMessage "tomcat has been restarted after the SSL change"
 
 # Step 6 - change all the password and IPS of the files
 # start with svn password
