@@ -7,10 +7,10 @@ exec > >(tee -a /var/tmp/jenkins-config_$$.log) 2>&1
 
 sudo sed -i 's/enabled=1/enabled=0/' /etc/yum.repos.d/cliqr.repo
 
-#Declaring variable used in the script
-# LOCAL_PROXY="http://proxy-wsa.esl.cisco.com:80"
-# LOCAL_REPO="http://192.168.130.206"
-# C3_SSL_CERT_NAME="ccc.crt"
+# Declaring variable used in the script
+#LOCAL_PROXY="http://proxy-wsa.esl.cisco.com:80"
+#LOCAL_REPO="http://192.168.130.206"
+#C3_SSL_CERT_NAME="ccc.crt"
 
 
 agentSendLogMessage "Installing JDK 8 ..."
@@ -28,13 +28,13 @@ JDK_VER=`echo jdk-8u171-linux-x64.tar.gz | sed -r 's/jdk-([0-9]{1}u[0-9]{1,3}).*
 JDK_NAME=`echo $JDK_VER | sed -r 's/([0-9]{1})u([0-9]{1,2})/jdk1.\1.0_\2/g'`
 
 
-mkdir /usr/local/java
-touch /usr/bin/java /usr/bin/javac /usr/bin/javaws /usr/bin/jar
-mv $JDK_NAME /usr/local/java
+sudo mkdir /usr/local/java
+sudo touch /usr/bin/java /usr/bin/javac /usr/bin/javaws /usr/bin/jar
+sudo mv $JDK_NAME /usr/local/java
 JAVA_HOME=/usr/local/java/$JDK_NAME
 
-update-alternatives --install "/usr/bin/java" "java" "$JAVA_HOME/bin/java" 1
-update-alternatives --set "java" "$JAVA_HOME/bin/java"
+sudo update-alternatives --install "/usr/bin/java" "java" "$JAVA_HOME/bin/java" 1
+sudo update-alternatives --set "java" "$JAVA_HOME/bin/java"
 #End of the Modification
 
 agentSendLogMessage "Java 1.8.0_171 installed in $JAVA_HOME/bin/java"
@@ -70,7 +70,7 @@ sudo mkdir jobs/$repoName
 sudo mkdir jobs/deploy
 cd jobs/$repoName
 # sudo wget $LOCAL_REPO/services/jenkins/conf/project.zip
-sudo wget https://raw.githubusercontent.com/bh-public/AdvDevOps/master/CloudCenter/appz/jenkins/conf/projec.zip
+sudo wget https://raw.githubusercontent.com/bh-public/AdvDevOps/master/CloudCenter/appz/jenkins/conf/project.zip
 sudo unzip project.zip
 # Bengin added on the 15th
 cd /var/lib/jenkins/jobs/deploy
@@ -127,9 +127,11 @@ cd /var/lib/jenkins/
 # sudo wget https://raw.githubusercontent.com/bh-public/AdvDevOps/master/CloudCenter/appz/jenkins/$C3_SSL_CERT_NAME
 # Adding to keystore. Note that if you changed the keystore default password you have to update the below command
 # sudo //usr/local/java/jdk1.8.0_171/bin/keytool -import -trustcacerts -alias cloudcenter -keystore /usr/local/java/jdk1.8.0_171/jre/lib/security/cacerts -file ccc.crt -noprompt -storepass changeit
-agentSendLogMessage "Wait were now using an alternative method to deal with SSL certs in Jenkins" 
-
+#
+agentSendLogMessage "We are now using an alternative method to deal with SSL certs in Jenkins" 
+#
 # Alternate Step 5 - Turn off SSL certs in Jenkins by using JavaSSL.zip
+cd /var/lib/jenkins/
 sudo wget https://raw.githubusercontent.com/bh-public/AdvDevOps/master/CloudCenter/appz/jenkins/conf/JavaSSL.zip
 sudo unzip JavaSSL.zip
 # Run the installcert and point to our url and answer with 1 for yes
@@ -140,7 +142,7 @@ echo 1 | $JAVA_HOME/bin/java InstallCert cloudcenter.cliqr.com
 EOF
 #
 sudo cp jssecacerts $JAVA_HOME/jre/lib/security
-cp jssecacerts ~/.keystore
+sudo cp jssecacerts ~/.keystore
 # now restart tomcat on the Jenkins server for the changes to take effect
 agentSentLogMessage "Now we need to bounce tomcat, restart ... tomcat"
 sudo /etc/init.d/tomcat stop
