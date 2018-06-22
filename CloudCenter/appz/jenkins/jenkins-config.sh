@@ -145,7 +145,7 @@ agentSentLogMessage "tomcat has been restarted after the SSL change"
 
 # Step 6 - change all the password and IPS of the files
 # start with svn password
-agentSendLogMessage "Finalizing the configuration ...."
+agentSendLogMessage "Finalizing the configuration .... and changing passwords"
 
 # Downloading subversion credentials
 cd /var/lib/jenkins/jobs/$repoName
