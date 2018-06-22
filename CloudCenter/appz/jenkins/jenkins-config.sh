@@ -116,7 +116,7 @@ agentSendLogMessage "Configuring artifactory plugin ..."
 sudo wget https://raw.githubusercontent.com/bh-public/AdvDevOps/master/CloudCenter/appz/jenkins/conf/artifactory.hpi
 cd /var/lib/jenkins
 # sudo wget $LOCAL_REPO/services/jenkins/conf/jenkins.model.ArtifactManagerConfiguration.xml
-sudo wget /https://raw.githubusercontent.com/bh-public/AdvDevOps/master/CloudCenter/appz/jenkins/conf/jenkins.model.ArtifactManagerConfiguration.xml
+sudo wget https://raw.githubusercontent.com/bh-public/AdvDevOps/master/CloudCenter/appz/jenkins/conf/jenkins.model.ArtifactManagerConfiguration.xml
 # sudo wget $LOCAL_REPO/services/jenkins/conf/org.jfrog.hudson.ArtifactoryBuilder.xml
 sudo wget https://raw.githubusercontent.com/bh-public/AdvDevOps/master/CloudCenter/services/jenkins/conf/org.jfrog.hudson.ArtifactoryBuilder.xml
 
@@ -130,10 +130,15 @@ cd /var/lib/jenkins/
 agentSendLogMessage "Wait were now using an alternative method to deal with SSL certs in Jenkins" 
 
 # Alternate Step 5 - Turn off SSL certs in Jenkins by using JavaSSL.zip
-sudo wget wget https://raw.githubusercontent.com/bh-public/AdvDevOps/master/CloudCenter/appz/jenkins/conf/JavaSSL.zip
+sudo wget https://raw.githubusercontent.com/bh-public/AdvDevOps/master/CloudCenter/appz/jenkins/conf/JavaSSL.zip
 sudo unzip JavaSSL.zip
 # Run the installcert and point to our url and answer with 1 for yes
-echo 1 | $JAVA_HOME/bin/java InstallCert cloudcenter.cliqr.com
+# echo 1 | $JAVA_HOME/bin/java InstallCert cloudcenter.cliqr.com
+# Try it this way, sudo required
+sudo bash <<"EOF" 
+echo 1 | $JAVA_HOME/bin/java InstallCert cloudcenter.cliqr.com 
+EOF
+#
 sudo cp jssecacerts $JAVA_HOME/jre/lib/security
 cp jssecacerts ~/.keystore
 # now restart tomcat on the Jenkins server for the changes to take effect
