@@ -10,7 +10,7 @@ sudo sed -i 's/enabled=1/enabled=0/' /etc/yum.repos.d/cliqr.repo
 # Declaring variable used in the script
 #LOCAL_PROXY="http://proxy-wsa.esl.cisco.com:80"
 #LOCAL_REPO="http://192.168.130.206"
-#C3_SSL_CERT_NAME="ccc.crt"
+C3_SSL_CERT_NAME="ccc.crt"
 
 
 agentSendLogMessage "Installing JDK 8 ..."
@@ -79,11 +79,11 @@ sudo wget https://raw.githubusercontent.com/bh-public/AdvDevOps/master/CloudCent
 sudo unzip job_deploy.zip
 ## Replace username and password used by the CloudCenter plugin
 ## Changed by bh for my tenant setup
-## <userName>jenkins_m_175</userName>
+## <userName>jenkins_q_175</userName>
 ## <password>8F536C1854DF813A</password> 
 ## ccRestUserName and ccRestPassword
 
-sudo sed -i "s/jenkins_m_175/$ccRestUserName/" /var/lib/jenkins/jobs/deploy/config.xml
+sudo sed -i "s/jenkins_q_175/$ccRestUserName/" /var/lib/jenkins/jobs/deploy/config.xml
 sudo sed -i "s/8F536C1854DF813A/$ccRestPassword/" /var/lib/jenkins/jobs/deploy/config.xml
 # End
 
