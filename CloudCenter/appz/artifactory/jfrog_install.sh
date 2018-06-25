@@ -16,7 +16,7 @@ sudo sed -i "s/enabled=1/enabled=0/" /etc/yum.repos.d/cliqr.repo
 cd /etc/yum.repos.d/
 #sudo wget $LOCAL_REPO/appz/artifactory/jfrog.repo
 # Modified for github
-https://raw.githubusercontent.com/bh-public/AdvDevOps/master/CloudCenter/appz/artifactory/jfrog.repo
+sudo wget https://raw.githubusercontent.com/bh-public/AdvDevOps/master/CloudCenter/appz/artifactory/jfrog.repo
  
 agentSendLogMessage "Installing jFrog Artifactory..."
 sudo yum install jfrog-artifactory-oss -y
