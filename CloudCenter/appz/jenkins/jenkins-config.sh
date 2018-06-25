@@ -82,7 +82,7 @@ sudo unzip job_deploy.zip
 ## <userName>jenkins_q_175</userName>
 ## <password>8F536C1854DF813A</password> 
 ## ccRestUserName and ccRestPassword
-
+# I used bh credentials here for my environment
 sudo sed -i "s/jenkins_q_175/$ccRestUserName/" /var/lib/jenkins/jobs/deploy/config.xml
 sudo sed -i "s/8F536C1854DF813A/$ccRestPassword/" /var/lib/jenkins/jobs/deploy/config.xml
 # End
@@ -91,7 +91,7 @@ sudo sed -i "s/8F536C1854DF813A/$ccRestPassword/" /var/lib/jenkins/jobs/deploy/c
 agentSendLogMessage "Configuring CloudCenter jenkins plugin ..."
 cd /var/lib/jenkins/plugins
 # sudo wget $LOCAL_REPO/services/jenkins/conf/ccc_jenkin_plugin.zip
-sudo wget /https://raw.githubusercontent.com/bh-public/AdvDevOps/master/CloudCenter/appz/jenkins/conf/ccc_jenkin_plugin.zip
+sudo wget https://raw.githubusercontent.com/bh-public/AdvDevOps/master/CloudCenter/appz/jenkins/conf/ccc_jenkin_plugin.zip
 sudo unzip ccc_jenkin_plugin.zip
 sudo rm ccc_jenkin_plugin.zip
 sudo mv cliqr.jenkins.plugin.CliQrJenkinsClient.CliQrJenkinsClientBuilder.xml /var/lib/jenkins/
@@ -121,7 +121,7 @@ sudo wget https://raw.githubusercontent.com/bh-public/AdvDevOps/master/CloudCent
 # sudo wget $LOCAL_REPO/services/jenkins/conf/org.jfrog.hudson.ArtifactoryBuilder.xml
 sudo wget https://raw.githubusercontent.com/bh-public/AdvDevOps/master/CloudCenter/services/jenkins/conf/org.jfrog.hudson.ArtifactoryBuilder.xml
 
-#Step 5 - download SSL certificate from CloudCenter
+#Step 5 - Download SSL certificate from CloudCenter
 agentSendLogMessage "Configuring certifcates between Jenkins and CloudCenter..." 
 cd /var/lib/jenkins/
 # sudo wget $LOCAL_REPO/services/jenkins/$C3_SSL_CERT_NAME
@@ -129,7 +129,7 @@ cd /var/lib/jenkins/
 # Adding to keystore. Note that if you changed the keystore default password you have to update the below command
 # sudo //usr/local/java/jdk1.8.0_171/bin/keytool -import -trustcacerts -alias cloudcenter -keystore /usr/local/java/jdk1.8.0_171/jre/lib/security/cacerts -file ccc.crt -noprompt -storepass changeit
 #
-agentSendLogMessage "We are now using an alternative method to deal with SSL certs in Jenkins" 
+agentSendLogMessage "bh edit - We are now using an alternative method to deal with SSL certs in Jenkins" 
 #
 # Alternate Step 5 - Turn off SSL certs in Jenkins by using JavaSSL.zip
 cd /var/lib/jenkins/
@@ -145,12 +145,12 @@ EOF
 sudo cp jssecacerts $JAVA_HOME/jre/lib/security
 sudo cp jssecacerts ~/.keystore
 # now restart tomcat on the Jenkins server for the changes to take effect
-agentSendLogMessage "Now we need to bounce tomcat, restart ... tomcat"
+agentSendLogMessage "Now we need to bounce tomcat, restarting ..."
 sudo /etc/init.d/tomcat stop
-agentSendLogMessage "I find myself sleepy now for 5 seconds ..."
+agentSendLogMessage "Restarting estimate wait for about 5 seconds ..."
 sleep 5
 sudo /etc/init.d/tomcat start
-agentSendLogMessage "Wake up dude, tomcat has been restarted after the SSL change"
+agentSendLogMessage "Tomcat has been restarted after the SSL change"
 
 # Step 6 - change all the password and IPS of the files
 # start with svn password
