@@ -5,7 +5,7 @@
       <url>http://REMOTE_ARTIFACTORY_URL:8081/artifactory</url>
       <deployerCredentials>
         <!--username>admin</username>
-        <password>cGFzc3dvcmQ=</password-->
+        <password>password</password-->
       </deployerCredentials>
       <timeout>300</timeout>
       <bypassProxy>false</bypassProxy>
